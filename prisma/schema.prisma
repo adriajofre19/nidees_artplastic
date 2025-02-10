@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  phone     String?  @default("")
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Adress {
+  id        String   @id @default(cuid())
+  userId    String
+  street    String
+  city      String
+  state     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model PaymentCard {
+  id        String   @id @default(cuid())
+  userId    String
+  number    String
+  name      String
+  cvv       String
+  expDate   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  image       String
+  slug        String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[] // 🔥 Afegeix aquesta línia per establir la relació
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  image       String
+  slug        String   @unique
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id])
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  quantity  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
