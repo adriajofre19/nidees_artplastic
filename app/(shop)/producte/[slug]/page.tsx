@@ -37,7 +37,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 <Suspense fallback={<div>Loading gallery...</div>}>
-
+                    <ProductGallery images={allImages} productName={product.name} />
                 </Suspense>
                 {product && category && <ProductInfo product={product} category={category} />}
             </div>
