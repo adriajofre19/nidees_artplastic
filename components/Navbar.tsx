@@ -155,7 +155,7 @@ export default function Navbar() {
                 <div className="md:hidden">
                     <div className="px-2 pt-2 pb-3 space-y-1">
                         <Link
-                            href="/tienda"
+                            href="/categories"
                             className="block px-3 py-2 text-gray-700 hover:text-emerald-600"
                         >
                             Tienda

@@ -19,6 +19,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Image as ImageIcon, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 interface ProductDialogProps {
     open: boolean;
@@ -192,7 +193,7 @@ export function ProductDialog({ open, onOpenChange, product, categories, onClose
                         </div>
                         {imagePreview && (
                             <div className="mt-4">
-                                <img
+                                <Image
                                     src={imagePreview}
                                     alt="Preview"
                                     className="max-w-full h-48 object-cover rounded-lg"

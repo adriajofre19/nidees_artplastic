@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import Image from "next/image";
 
 export default function LoginPage() {
     const [form, setForm] = useState({ email: "", password: "" });
@@ -129,7 +130,7 @@ export default function LoginPage() {
 
             {/* Right side - Image */}
             <div className="hidden lg:flex h-screen">
-                <img src="/bolso_auth.png" alt="Logo" className="h-full w-auto" />
+                <Image src="/bolso_auth.png" alt="Logo" className="h-full w-auto" />
             </div>
         </div>
     );

@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Image as ImageIcon, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 interface CategoryDialogProps {
     open: boolean;
@@ -118,7 +119,7 @@ export function CategoryDialog({ open, onOpenChange, category, onClose }: Catego
                         </div>
                         {category?.image && (
                             <div className="mt-4">
-                                <img src={`/images/${category.image}`} alt="Preview" className="max-w-full h-48 object-cover rounded-lg" />
+                                <Image src={`/images/${category.image}`} alt="Preview" className="max-w-full h-48 object-cover rounded-lg" />
                             </div>
                         )}
                     </div>

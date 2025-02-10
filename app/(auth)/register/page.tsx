@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Mail, User, Lock, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function RegisterPage() {
     const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -34,7 +35,7 @@ export default function RegisterPage() {
         <div className="min-h-screen flex">
             {/* Left side - Image */}
             <div className="hidden lg:flex h-screen relative">
-                <img
+                <Image
                     src="/bolso_auth.png"
                     alt="Register"
                     className="w-auto h-full"

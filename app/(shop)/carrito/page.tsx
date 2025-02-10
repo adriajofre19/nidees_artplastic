@@ -24,7 +24,7 @@ export default function CartPage() {
             asChild
             className="text-emerald-600 border-emerald-600 hover:bg-emerald-50"
           >
-            <Link href="/tienda">
+            <Link href="/categories">
               Continuar Comprant
             </Link>
           </Button>
