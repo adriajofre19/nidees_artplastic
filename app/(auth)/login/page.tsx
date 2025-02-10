@@ -130,7 +130,7 @@ export default function LoginPage() {
 
             {/* Right side - Image */}
             <div className="hidden lg:flex h-screen">
-                <Image src="/bolso_auth.png" alt="Logo" className="h-full w-auto" />
+                <img src="/bolso_auth.png" alt="Logo" className="h-full w-auto" />
             </div>
         </div>
     );
