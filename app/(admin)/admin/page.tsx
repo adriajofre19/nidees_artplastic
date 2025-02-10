@@ -148,7 +148,7 @@ export default function AdminPage() {
                   />
                   <div>
                     <p className="font-medium">{product.name}</p>
-                    <p className="text-sm text-gray-500">{product.price}€</p>
+                    <p className="text-sm text-gray-500">{product.price}.€</p>
                   </div>
                 </div>
                 <Button
