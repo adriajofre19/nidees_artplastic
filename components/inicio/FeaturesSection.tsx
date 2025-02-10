@@ -1,12 +1,12 @@
 "use client";
 
-import { 
-  Recycle, 
-  Hammer, 
-  MapPin, 
-  Leaf, 
+import {
+  Recycle,
+  Hammer,
+  MapPin,
+  Leaf,
   Heart,
-  ShieldCheck 
+  ShieldCheck
 } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback, useEffect, useState } from 'react';
@@ -52,8 +52,8 @@ export default function FeaturesSection() {
     skipSnaps: false,
     slidesToScroll: 1,
     breakpoints: {
-      '(min-width: 768px)': { slidesToScroll: 1, slidesToShow: 3 },
-      '(max-width: 767px)': { slidesToScroll: 1, slidesToShow: 1 }
+      '(min-width: 768px)': { slidesToScroll: 1 },
+      '(max-width: 767px)': { slidesToScroll: 1 }
     }
   });
 
@@ -76,7 +76,7 @@ export default function FeaturesSection() {
     onSelect();
     setScrollSnaps(emblaApi.scrollSnapList());
     emblaApi.on('select', onSelect);
-    
+
     // Auto-scroll every 5 seconds
     const autoplay = setInterval(() => {
       emblaApi.scrollNext();
@@ -101,7 +101,7 @@ export default function FeaturesSection() {
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
             {features.map((feature, index) => (
-              <div 
+              <div
                 key={index}
                 className="flex-[0_0_100%] md:flex-[0_0_33.33%] px-4"
               >
@@ -122,11 +122,10 @@ export default function FeaturesSection() {
           {scrollSnaps.map((_, index) => (
             <button
               key={index}
-              className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                index === selectedIndex 
-                  ? 'bg-emerald-600' 
+              className={`w-2 h-2 rounded-full transition-colors duration-200 ${index === selectedIndex
+                  ? 'bg-emerald-600'
                   : 'bg-gray-300 hover:bg-emerald-400'
-              }`}
+                }`}
               onClick={() => scrollTo(index)}
               aria-label={`Go to slide ${index + 1}`}
             />
