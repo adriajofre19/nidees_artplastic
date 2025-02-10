@@ -7,63 +7,63 @@ export default async function CategoriesSection() {
     return (
         <>
             {/* First row: 3 categories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[70vh] md:h-[50vh] mb-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[120vh] md:h-[50vh] mb-4 gap-4">
                 {categories.slice(0, 3).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 
             {/* Second row: 2 categories */}
-            <div className="grid grid-cols-1 md:grid-cols-2 h-[50vh] md:h-[50vh] mb-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 h-[120vh] md:h-[50vh] mb-4 gap-4">
                 {categories.slice(3, 5).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 
             {/* Third row: 3 categories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[70vh] md:h-[50vh] mb-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[120vh] md:h-[50vh] mb-4 gap-4">
                 {categories.slice(5, 8).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 
             {/* Fourth row: 2 categories */}
-            <div className="grid grid-cols-1 md:grid-cols-2 h-[50vh] md:h-[50vh] gap-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 h-[100vh] md:h-[50vh] gap-4 mb-4">
                 {categories.slice(8, 10).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 
             {/* Fifth row: 3 category */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[70vh] md:h-[50vh] mb-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[120vh] md:h-[50vh] mb-4 gap-4">
                 {categories.slice(10, 13).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 
             {/* Sixth row: 2 categories */}
-            <div className="grid grid-cols-1 md:grid-cols-2 h-[50vh] md:h-[50vh] mb-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 h-[100vh] md:h-[50vh] mb-4 gap-4">
                 {categories.slice(13, 15).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 
             {/* Seventh row: 3 categories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[70vh] md:h-[50vh] mb-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[120vh] md:h-[50vh] mb-4 gap-4">
                 {categories.slice(15, 18).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 
             {/* Eighth row: 2 categories */}
-            <div className="grid grid-cols-1 md:grid-cols-2 h-[50vh] md:h-[50vh] mb-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 h-[100vh] md:h-[50vh] mb-4 gap-4">
                 {categories.slice(18, 20).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
             </div>
 
             {/* Ninth row: 3 categories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[70vh] md:h-[50vh] mb-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[120vh] md:h-[50vh] mb-4 gap-4">
                 {categories.slice(20, 23).map((category) => (
                     <CategoryCard key={category.id} category={category} />
                 ))}
