@@ -19,6 +19,8 @@ interface ProductInfoProps {
     id: string;
     name: string;
     slug: string;
+    image: string;
+
   };
 }
 
