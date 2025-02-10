@@ -168,20 +168,14 @@ export default function AdminPage() {
       <CategoryDialog
         open={isCategoryDialogOpen}
         onOpenChange={setIsCategoryDialogOpen}
-        onSuccess={() => {
-          setIsCategoryDialogOpen(false);
-          mutateCategories();
-        }}
+        onClose={() => setIsCategoryDialogOpen(false)}
       />
 
       <ProductDialog
         open={isProductDialogOpen}
         onOpenChange={setIsProductDialogOpen}
         categories={categories}
-        onSuccess={() => {
-          setIsProductDialogOpen(false);
-          mutateProducts();
-        }}
+        onClose={() => setIsProductDialogOpen(false)}
       />
     </div>
   );

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/cart-context";
 import { useContext } from "react";
-import { ToastContext } from "@/components/ui/custom-toast";
 import AddToCartButton from "../AddToCartButton";
 
 interface ProductInfoProps {
@@ -19,12 +18,12 @@ interface ProductInfoProps {
   category: {
     id: string;
     name: string;
+    slug: string;
   };
 }
 
 export function ProductInfo({ product, category }: ProductInfoProps) {
   const { addItem } = useCart();
-  const toast = useContext(ToastContext);
 
   const handleAddToCart = () => {
     addItem({
@@ -34,10 +33,6 @@ export function ProductInfo({ product, category }: ProductInfoProps) {
       image: product.image,
     });
 
-    toast?.showToast(
-      "Producte afegit",
-      "S'ha afegit el producte a la cistella",
-    );
   };
 
   return (
