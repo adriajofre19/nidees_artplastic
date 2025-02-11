@@ -119,7 +119,7 @@ export function CategoryDialog({ open, onOpenChange, category, onClose }: Catego
                         </div>
                         {category?.image && (
                             <div className="mt-4">
-                                <Image src={`/images/${category.image}`} alt="Preview" className="max-w-full h-48 object-cover rounded-lg" />
+                                <img src={`/images/${category.image}`} alt="Preview" className="max-w-full h-48 object-cover rounded-lg" />
                             </div>
                         )}
                     </div>

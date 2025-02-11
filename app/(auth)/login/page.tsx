@@ -36,7 +36,7 @@ export default function LoginPage() {
             // 🔄 Esperem una mica per garantir la sincronització
             setTimeout(() => {
                 router.refresh();
-                router.push("/profile");
+                router.push("/perfil");
             }, 100);
         } else {
             setError(data.error || "Error en l'inici de sessió");

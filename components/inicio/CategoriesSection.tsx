@@ -62,13 +62,6 @@ export default async function CategoriesSection() {
                 ))}
             </div>
 
-            {/* Ninth row: 3 categories */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 h-[120vh] md:h-[50vh] mb-4 gap-4">
-                {categories.slice(20, 23).map((category) => (
-                    <CategoryCard key={category.id} category={category} />
-                ))}
-            </div>
-
         </>
     );
 }
@@ -95,8 +88,9 @@ function CategoryCard({ category }: CategoryCardProps) {
                 className="object-cover"
             />
             <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />
-            <div className="absolute inset-0 flex items-center justify-center">
-                <h2 className="text-xl md:text-3xl font-light text-white tracking-wider transform group-hover:scale-110  transition-transform duration-300">
+            <div className="absolute inset-0 flex items-end bottom-8 justify-center">
+                <h2 className="text-xl md:text-2xl font-light text-white tracking-wider transform group-hover:scale-110  transition-transform duration-300
+                bg-black/80 border-2 border-white p-2 group-hover:bg-white group-hover:text-black ">
                     {category.name}
                 </h2>
             </div>

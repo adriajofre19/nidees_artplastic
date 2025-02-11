@@ -193,7 +193,7 @@ export function ProductDialog({ open, onOpenChange, product, categories, onClose
                         </div>
                         {imagePreview && (
                             <div className="mt-4">
-                                <Image
+                                <img
                                     src={imagePreview}
                                     alt="Preview"
                                     className="max-w-full h-48 object-cover rounded-lg"

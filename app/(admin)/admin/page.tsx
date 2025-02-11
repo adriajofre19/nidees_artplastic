@@ -104,7 +104,7 @@ export default function AdminPage() {
             {categories.map((category: any) => (
               <div key={category.id} className="flex items-center justify-between p-4 bg-white rounded-lg shadow">
                 <div className="flex items-center gap-4">
-                  <Image
+                  <img
                     src={category.image}
                     alt={category.name}
                     className="h-12 w-12 rounded-lg object-cover"
@@ -142,7 +142,7 @@ export default function AdminPage() {
             {products.map((product: any) => (
               <div key={product.id} className="flex items-center justify-between p-4 bg-white rounded-lg shadow">
                 <div className="flex items-center gap-4">
-                  <Image
+                  <img
                     src={product.image}
                     alt={product.name}
                     className="h-12 w-12 rounded-lg object-cover"
