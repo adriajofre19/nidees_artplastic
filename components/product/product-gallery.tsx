@@ -13,13 +13,13 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const nextImage = () => {
-    setSelectedImageIndex((current) => 
+    setSelectedImageIndex((current) =>
       current === images.length - 1 ? 0 : current + 1
     );
   };
 
   const previousImage = () => {
-    setSelectedImageIndex((current) => 
+    setSelectedImageIndex((current) =>
       current === 0 ? images.length - 1 : current - 1
     );
   };
@@ -51,7 +51,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           </>
         )}
       </div>
-      
+
       {/* Thumbnails */}
       {images.length > 1 && (
         <div className="grid grid-cols-5 gap-4">
@@ -59,11 +59,10 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
             <button
               key={index}
               onClick={() => setSelectedImageIndex(index)}
-              className={`relative aspect-square rounded-md overflow-hidden ${
-                selectedImageIndex === index 
-                  ? 'ring-2 ring-emerald-600' 
+              className={`relative aspect-square rounded-md overflow-hidden ${selectedImageIndex === index
+                  ? 'ring-2 ring-emerald-600'
                   : 'hover:opacity-75'
-              }`}
+                }`}
             >
               <Image
                 src={image}

@@ -16,12 +16,12 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">Enlaces</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/tienda" className="text-sm text-gray-600 hover:text-emerald-600">
+                <Link href="/categories" className="text-sm text-gray-600 hover:text-emerald-600">
                   Tienda
                 </Link>
               </li>
               <li>
-                <Link href="/sobre-nosotros" className="text-sm text-gray-600 hover:text-emerald-600">
+                <Link href="/nosaltres" className="text-sm text-gray-600 hover:text-emerald-600">
                   Sobre Nosotros
                 </Link>
               </li>
@@ -36,12 +36,12 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/privacidad" className="text-sm text-gray-600 hover:text-emerald-600">
+                <Link href="/" className="text-sm text-gray-600 hover:text-emerald-600">
                   Política de Privacidad
                 </Link>
               </li>
               <li>
-                <Link href="/terminos" className="text-sm text-gray-600 hover:text-emerald-600">
+                <Link href="/" className="text-sm text-gray-600 hover:text-emerald-600">
                   Términos y Condiciones
                 </Link>
               </li>
