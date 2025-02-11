@@ -61,8 +61,8 @@ export default function Navbar() {
                 <div className="flex justify-between h-20">
                     <div className="flex items-center">
                         <Link href="/" className="flex-shrink-0 flex items-center">
-
-                            <img src="/logo.png" alt="NiDEES" className="h-8" />
+                            <img src="/logo_cuad2.png" alt="NiDEES" className="h-14" />
+                            <img src="/logo.png" alt="NiDEES" className="h-7 ml-2" />
                         </Link>
                     </div>
 

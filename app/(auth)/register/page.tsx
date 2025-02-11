@@ -35,7 +35,7 @@ export default function RegisterPage() {
         <div className="min-h-screen flex">
             {/* Left side - Image */}
             <div className="hidden lg:flex h-screen relative">
-                <Image
+                <img
                     src="/bolso_auth.png"
                     alt="Register"
                     className="w-auto h-full"
