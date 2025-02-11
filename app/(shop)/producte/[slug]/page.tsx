@@ -16,7 +16,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
     const category = product?.category;
 
-    const allImages = [product?.image, 'https://images.unsplash.com/photo-1627123424574-724758594e93', 'https://images.unsplash.com/photo-1604176354204-9268737828e4'].filter((image): image is string => !!image);
+    const allImages = [product?.image, '/images/targeter-blanc-i-negre.jpg', '/images/targeter-gris.jpg'].filter((image): image is string => !!image);
 
 
     if (!product) {

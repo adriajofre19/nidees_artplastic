@@ -7,24 +7,7 @@ import { Instagram } from "lucide-react";
 export default function AboutUsPage() {
     return (
         <div className="min-h-screen">
-            {/* Hero Section */}
-            <div className="relative h-[50vh]">
-                <Image
-                    src="https://images.unsplash.com/photo-1523381294911-8d3cead13475"
-                    alt="NiDEES - Artesania Sostenible"
-                    fill
-                    className="object-cover brightness-50"
-                    priority
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center text-white">
-                        <h1 className="text-4xl md:text-5xl font-light mb-4">Sobre Nosaltres</h1>
-                        <p className="text-lg max-w-2xl mx-auto px-4">
-                            Transformem residus en art, donant una segona vida als materials
-                        </p>
-                    </div>
-                </div>
-            </div>
+
 
             {/* Our Story Section */}
             <section className="py-16 md:py-24 bg-white">
@@ -52,7 +35,7 @@ export default function AboutUsPage() {
                         </div>
                         <div className="relative h-[400px] rounded-lg overflow-hidden">
                             <Image
-                                src="https://images.unsplash.com/photo-1621972750749-0fbb1abb7736"
+                                src="/tienda.png"
                                 alt="El nostre taller"
                                 fill
                                 className="object-cover"
@@ -97,7 +80,7 @@ export default function AboutUsPage() {
                         </div>
                         <div className="relative h-[300px] group">
                             <Image
-                                src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc"
+                                src="/tienda.png"
                                 alt="Fires Especials"
                                 fill
                                 className="object-cover rounded-lg"
