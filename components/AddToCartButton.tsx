@@ -3,9 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/cart-context";
+import { useRouter } from "next/navigation";
 
 export default function AddToCartButton({ product }: { product: any }) {
     const { addItem } = useCart();
+    const router = useRouter();
 
     const handleAddToCart = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -15,6 +17,7 @@ export default function AddToCartButton({ product }: { product: any }) {
             price: product.price,
             image: product.image
         });
+        router.push("/carrito");
     };
 
     return (
