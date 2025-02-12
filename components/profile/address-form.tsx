@@ -19,7 +19,6 @@ interface Address {
 
 export function AddressForm() {
     const { data: addresses, error, mutate } = useSWR<Address[]>("/api/profile/addresses", fetcher);
-    console.log(addresses);
     const [showForm, setShowForm] = useState(false);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
