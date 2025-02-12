@@ -12,27 +12,23 @@ export async function POST(req: Request) {
         // Create Stripe checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ["card"],
-            line_items: items.map((item: any) => {
-                // Convert relative image URL to absolute URL
-                const imageUrl = item.image.startsWith('http')
-                    ? item.image
-                    : `${process.env.NEXT_PUBLIC_BASE_URL}${item.image}`;
-
-                return {
-                    price_data: {
-                        currency: "eur",
-                        product_data: {
-                            name: item.name,
-                            images: [imageUrl],
-                        },
-                        unit_amount: Math.round(item.price * 100), // Convert to cents
+            line_items: items.map((item: any) => ({
+                price_data: {
+                    currency: "eur",
+                    product_data: {
+                        name: item.name,
+                        // Only include images if they are HTTPS URLs
+                        ...(item.image?.startsWith('https://') && {
+                            images: [item.image]
+                        })
                     },
-                    quantity: item.quantity,
-                };
-            }),
+                    unit_amount: Math.round(item.price * 100), // Convert to cents
+                },
+                quantity: item.quantity,
+            })),
             mode: "payment",
-            success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/carrito`,
+            success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/carrito`,
             customer_email: customerData.email,
             shipping_address_collection: {
                 allowed_countries: ["ES"],
@@ -47,7 +43,7 @@ export async function POST(req: Request) {
     } catch (error) {
         console.error("Checkout error:", error);
         return NextResponse.json(
-            { error: "Error processing checkout" },
+            { error: "Error processant la comanda" },
             { status: 500 }
         );
     }
