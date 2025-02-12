@@ -5,9 +5,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useCart } from "@/context/cart-context";
+import { CheckoutForm } from "@/components/checkout/checkout-form";
+import { useState } from "react";
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity } = useCart();
+  const [showCheckoutForm, setShowCheckoutForm] = useState(false);
 
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = 0; // Free shipping
@@ -16,15 +19,15 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h1 className="text-3xl font-light mb-8">La teva Cistella</h1>
+        <h1 className="text-3xl font-light mb-8">El Teu Carret</h1>
         <div className="text-center py-12">
-          <p className="text-gray-600 mb-8">La teva cistella està buida</p>
+          <p className="text-gray-600 mb-8">El teu carret està buit</p>
           <Button
             variant="outline"
             asChild
             className="text-emerald-600 border-emerald-600 hover:bg-emerald-50"
           >
-            <Link href="/categories">
+            <Link href="/tienda">
               Continuar Comprant
             </Link>
           </Button>
@@ -35,11 +38,12 @@ export default function CartPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <h1 className="text-3xl font-light mb-12">La teva cistella</h1>
+      <h1 className="text-3xl font-light mb-12">El Teu Carret</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Cart Items */}
-        <div className="lg:col-span-8">
+        {/* Cart Items and Checkout Form */}
+        <div className="lg:col-span-8 space-y-12">
+          {/* Cart Items */}
           <div className="space-y-8">
             {items.map((item) => (
               <div key={item.id} className="flex gap-6 pb-6 border-b">
@@ -62,8 +66,8 @@ export default function CartPage() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-gray-400 hover:text-red-500"
                       onClick={() => removeItem(item.id)}
+                      className="text-gray-400 hover:text-red-500"
                     >
                       <Trash2 className="h-5 w-5" />
                     </Button>
@@ -90,7 +94,8 @@ export default function CartPage() {
             ))}
           </div>
 
-          <div className="mt-8">
+          {/* Continue Shopping Button */}
+          <div className="flex items-center justify-between">
             <Button
               variant="outline"
               asChild
@@ -100,12 +105,28 @@ export default function CartPage() {
                 Continuar Comprant
               </Link>
             </Button>
+            {!showCheckoutForm && (
+              <Button
+                onClick={() => setShowCheckoutForm(true)}
+                className="bg-emerald-600 hover:bg-emerald-700"
+              >
+                Tramitar Comanda
+              </Button>
+            )}
           </div>
+
+          {/* Checkout Form */}
+          {showCheckoutForm && (
+            <div className="mt-8 border-t pt-8">
+              <h2 className="text-2xl font-light mb-6">Dades d&apos;Enviament</h2>
+              <CheckoutForm />
+            </div>
+          )}
         </div>
 
         {/* Order Summary */}
         <div className="lg:col-span-4">
-          <div className="bg-gray-50 rounded-lg p-6">
+          <div className="bg-gray-50 rounded-lg p-6 sticky top-6">
             <h2 className="text-lg font-medium mb-6">Resum de la Comanda</h2>
 
             <div className="space-y-4 mb-6">
@@ -125,10 +146,6 @@ export default function CartPage() {
                 <span className="font-bold text-lg">{total.toFixed(2)}€</span>
               </div>
             </div>
-
-            <Button className="w-full bg-emerald-600 hover:bg-emerald-700">
-              Tramitar Comanda
-            </Button>
 
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-500">
