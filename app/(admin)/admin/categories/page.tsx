@@ -221,7 +221,7 @@ export default function CategoriesPage() {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredCategories.map(category => (
+                    {filteredCategories.map((category: { id: string; name: string; image: string, description: string }) => (
                         <Card key={category.id}>
                             <CardHeader className="relative pb-0">
                                 <div className="aspect-video relative rounded-lg overflow-hidden">
