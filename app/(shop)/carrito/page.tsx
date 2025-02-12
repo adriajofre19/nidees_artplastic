@@ -105,14 +105,7 @@ export default function CartPage() {
                 Continuar Comprant
               </Link>
             </Button>
-            {!showCheckoutForm && (
-              <Button
-                onClick={() => setShowCheckoutForm(true)}
-                className="bg-emerald-600 hover:bg-emerald-700"
-              >
-                Tramitar Comanda
-              </Button>
-            )}
+
           </div>
 
           {/* Checkout Form */}
@@ -152,6 +145,20 @@ export default function CartPage() {
                 Enviament gratuït a tota la península
               </p>
             </div>
+
+            <div className="mt-6 text-center">
+              {!showCheckoutForm && (
+                <Button
+                  onClick={() => setShowCheckoutForm(true)}
+                  className="bg-emerald-600 hover:bg-emerald-700"
+                >
+                  Tramitar Comanda
+                </Button>
+              )}
+            </div>
+
+
+
           </div>
         </div>
       </div>
