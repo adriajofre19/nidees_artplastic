@@ -1,25 +1,24 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { v2 as cloudinary } from "cloudinary";
+
+// Configurar Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+    api_key: process.env.CLOUDINARY_API_KEY!,
+    api_secret: process.env.CLOUDINARY_API_SECRET!,
+});
 
 export async function GET() {
     try {
         const products = await prisma.product.findMany({
-            include: {
-                category: true
-            },
-            orderBy: {
-                name: 'asc'
-            }
+            include: { category: true },
+            orderBy: { id: 'asc' }
         });
         return NextResponse.json(products);
     } catch (error) {
         console.error("[PRODUCTS_GET]", error);
-        return NextResponse.json(
-            { error: "Error al obtenir els productes" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Error al obtenir els productes" }, { status: 500 });
     }
 }
 
@@ -33,63 +32,55 @@ export async function POST(req: Request) {
         const imageFile = formData.get("image") as File;
 
         if (!name || !price || !categoryId || !imageFile) {
-            return NextResponse.json(
-                { error: "Falten camps obligatoris" },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "Falten camps obligatoris" }, { status: 400 });
         }
 
-        // Generate URL-friendly ID from name
+        // Generar un ID basado en el nombre
         const id = name.toLowerCase()
-            .replace(/[àáâãäçèéêëìíîïñòóôõöùúûüýÿ]/g, c =>
-                'aaaaaceeeeiiiinooooouuuuyy'['àáâãäçèéêëìíîïñòóôõöùúûüýÿ'.indexOf(c)])
-            .replace(/[^a-z0-9]+/g, '-')
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Quitar acentos
+            .replace(/[^a-z0-9]+/g, '-') // Reemplazar caracteres no válidos
             .replace(/^-+|-+$/g, '');
 
-        // Generate URL-friendly Slug from name
-        const genSlug = name.toLowerCase().replace(/[àáâãäçèéêëìíîïñòóôõöùúûüýÿ]/g, c =>
-            'aaaaaceeeeiiiinooooouuuuyy'['àáâãäçèéêëìíîïñòóôõöùúûüýÿ'.indexOf(c)])
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-+|-+$/g, '');
+        // Generar Slug basado en el nombre
+        const genSlug = id;
 
-
-        // Ensure images directory exists
-        const imagesDir = join(process.cwd(), "public/images/products");
-        await mkdir(imagesDir, { recursive: true });
-
-        // Save image with product ID as filename
-        const imageExt = imageFile.name.split('.').pop() || 'jpg';
-        const imageName = `${id}.${imageExt}`;
-        const imagePath = join(imagesDir, imageName);
-
-        // Convert File to Buffer and save
+        // Convertir archivo a Buffer
         const bytes = await imageFile.arrayBuffer();
         const buffer = Buffer.from(bytes);
-        await writeFile(imagePath, buffer);
 
-        // Create product in database
+        // Subir imagen a Cloudinary
+        const uploadResult = await new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+                { folder: "products" }, // Carpeta en Cloudinary
+                (error, result) => {
+                    if (error) reject(error);
+                    else resolve(result);
+                }
+            );
+            uploadStream.end(buffer);
+        });
+
+        // Obtener la URL de la imagen subida
+        const imageUrl = (uploadResult as any).secure_url;
+
+        // Crear producto en la base de datos
         const product = await prisma.product.create({
             data: {
                 id,
                 name,
                 description,
                 price,
-                image: `/images/products/${imageName}`,
+                image: imageUrl, // Guardar la URL de Cloudinary
                 categoryId,
                 slug: genSlug
             },
-            include: {
-                category: true
-            }
+            include: { category: true }
         });
 
         return NextResponse.json(product, { status: 201 });
     } catch (error) {
         console.error("[PRODUCTS_POST]", error);
-        return NextResponse.json(
-            { error: "Error al crear el producte" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Error al crear el producte" }, { status: 500 });
     }
 }
 
@@ -98,22 +89,28 @@ export async function DELETE(req: Request) {
         const { id } = await req.json();
 
         if (!id) {
-            return NextResponse.json(
-                { error: "ID de producte no proporcionat" },
-                { status: 400 }
-            );
+            return NextResponse.json({ error: "ID de producte no proporcionat" }, { status: 400 });
         }
 
-        const product = await prisma.product.delete({
-            where: { id }
-        });
+        // Buscar el producto antes de eliminarlo
+        const product = await prisma.product.findUnique({ where: { id } });
 
-        return NextResponse.json(product);
+        if (!product) {
+            return NextResponse.json({ error: "Producte no trobat" }, { status: 404 });
+        }
+
+        // Eliminar imagen de Cloudinary si existe
+        if (product.image) {
+            const publicId = product.image.split("/").pop()?.split(".")[0]; // Obtener el publicId de Cloudinary
+            await cloudinary.uploader.destroy(`products/${publicId}`);
+        }
+
+        // Eliminar el producto de la base de datos
+        await prisma.product.delete({ where: { id } });
+
+        return NextResponse.json({ message: "Producte eliminat correctament" });
     } catch (error) {
         console.error("[PRODUCTS_DELETE]", error);
-        return NextResponse.json(
-            { error: "Error al eliminar el producte" },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: "Error al eliminar el producte" }, { status: 500 });
     }
 }

@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { v2 as cloudinary } from "cloudinary";
+
+// Configurar Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+    api_key: process.env.CLOUDINARY_API_KEY!,
+    api_secret: process.env.CLOUDINARY_API_SECRET!,
+});
 
 export async function PUT(req: Request) {
     try {
@@ -42,26 +48,39 @@ export async function PUT(req: Request) {
 
         // Solo actualizar la imagen si se proporciona una nueva
         if (imageFile && imageFile.size > 0) {
-            const imagesDir = join(process.cwd(), "public/images/products");
-            await mkdir(imagesDir, { recursive: true });
+            // Eliminar imagen antigua de Cloudinary
+            if (currentProduct.image) {
+                const publicId = currentProduct.image.split("/").pop()?.split(".")[0];
+                if (publicId) {
+                    await cloudinary.uploader.destroy(`products/${publicId}`);
+                }
+            }
 
-            const imageExt = imageFile.name.split('.').pop() || 'jpg';
-            const imageName = `${id}.${imageExt}`;
-            const imagePath = join(imagesDir, imageName);
-
+            // Convertir archivo a Buffer
             const bytes = await imageFile.arrayBuffer();
             const buffer = Buffer.from(bytes);
-            await writeFile(imagePath, new Uint8Array(buffer));
 
-            updateData.image = `/images/products/${imageName}`;
+            // Subir nueva imagen a Cloudinary
+            const uploadResult = await new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    { folder: "products" }, // Carpeta en Cloudinary
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                );
+                uploadStream.end(buffer);
+            });
+
+            // Guardar nueva URL de la imagen
+            updateData.image = (uploadResult as any).secure_url;
         }
 
+        // Actualizar el producto en la base de datos
         const product = await prisma.product.update({
             where: { id },
             data: updateData,
-            include: {
-                category: true
-            }
+            include: { category: true }
         });
 
         return NextResponse.json(product);

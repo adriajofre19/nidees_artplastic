@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { v2 as cloudinary } from "cloudinary";
+
+// Configurar Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+    api_key: process.env.CLOUDINARY_API_KEY!,
+    api_secret: process.env.CLOUDINARY_API_SECRET!,
+});
 
 export async function PUT(req: Request) {
     try {
@@ -36,22 +42,37 @@ export async function PUT(req: Request) {
             image: currentCategory.image // Mantener la imagen actual por defecto
         };
 
-        // Solo actualizar la imagen si se proporciona una nueva
+        // Si se sube una nueva imagen, eliminar la anterior y subir la nueva
         if (imageFile && imageFile.size > 0) {
-            const imagesDir = join(process.cwd(), "public/images/categories");
-            await mkdir(imagesDir, { recursive: true });
+            // Eliminar imagen antigua de Cloudinary
+            if (currentCategory.image) {
+                const publicId = currentCategory.image.split("/").pop()?.split(".")[0];
+                if (publicId) {
+                    await cloudinary.uploader.destroy(`categories/${publicId}`);
+                }
+            }
 
-            const imageExt = imageFile.name.split('.').pop() || 'jpg';
-            const imageName = `${id}.${imageExt}`;
-            const imagePath = join(imagesDir, imageName);
-
+            // Convertir archivo a Buffer
             const bytes = await imageFile.arrayBuffer();
             const buffer = Buffer.from(bytes);
-            await writeFile(imagePath, new Uint8Array(buffer));
 
-            updateData.image = `/images/categories/${imageName}`;
+            // Subir nueva imagen a Cloudinary
+            const uploadResult = await new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream(
+                    { folder: "categories" },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                );
+                uploadStream.end(buffer);
+            });
+
+            // Guardar la nueva URL de la imagen
+            updateData.image = (uploadResult as any).secure_url;
         }
 
+        // Actualizar la categoría en la base de datos
         const category = await prisma.category.update({
             where: { id },
             data: updateData
